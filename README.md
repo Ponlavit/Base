@@ -22,7 +22,7 @@ pod 'Base'
 
 ## Author
 
-ponlavitl, ponlavit@do.in.th
+ponlavitl, ponlavit.lar@gmail.com
 
 ## License
 

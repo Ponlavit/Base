@@ -1,0 +1,22 @@
+{
+  "name": "Base",
+  "version": "0.1.0",
+  "summary": "A short description of Base.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ponlavitl/Base",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ponlavitl": "ponlavit@do.in.th"
+  },
+  "source": {
+    "git": "https://github.com/ponlavitl/Base.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Base/Classes/**/*"
+}
