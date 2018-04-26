@@ -1,12 +1,14 @@
-//
-//  BaseRoute.swift
-//  Base
-//
-//  Created by Ponlavit Larpeampaisarl on 4/25/18.
-//
 
 import Foundation
 
-open class BaseRoute{
-    weak var viewController:BaseViewController!
+
+/// Contain the navigation option and action
+open class BaseRoute {
+    
+    /*! @brief use to perform segue and navigation action */
+    private weak var viewController:BaseViewController!
+    
+    public required init(viewController:BaseViewController) {
+        self.viewController = viewController
+    }
 }
