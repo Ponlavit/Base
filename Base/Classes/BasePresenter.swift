@@ -19,6 +19,14 @@ open class BasePresenter {
         
     }
     
+    public func getRoute() -> BaseRoute {
+        return self.route
+    }
+    
+    public func getView() -> BaseViewController {
+        return self.view
+    }
+    
     /*! @brief do some release or remove data for view */
     open func viewIsGone() {
         

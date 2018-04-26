@@ -13,19 +13,15 @@ open class BaseViewModel : BaseModel {
         return BaseView.build(withModel: self)
     }
     
-    public func getNibName() -> String? {
+    open func getNibName() -> String? {
         return self.nibName
     }
     
     public let name:String!
-    public let nibName:String?
+    public var nibName:String?
     
-    convenience init(withName name:String!){
-        self.init(withName: name, andNibName: "")
-    }
-    
-    init(withName name:String!, andNibName nibName:String!){
+    public init(withName name:String!){
         self.name = name
-        self.nibName = nibName
     }
+
 }

@@ -18,5 +18,5 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "Base/Classes/*"
+  "source_files": "Base/Classes/**/*"
 }

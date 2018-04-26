@@ -10,6 +10,10 @@ import Foundation
 open class BaseView : UIView {
     public var viewModel:BaseViewModel!
     
+    open func setupView(){}
+    
+    open func getModel() -> BaseViewModel { return self.viewModel }
+    
     class func instanceFromNib(nibName name:String!) -> BaseView {
         return UINib(nibName: name, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
     }
@@ -37,8 +41,7 @@ open class BaseView : UIView {
         super.init(frame: frame)
     }
     
-    @available(*, unavailable)
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("NSCoding not supported")
+        super.init(coder: aDecoder)
     }
 }

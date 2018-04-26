@@ -16,14 +16,21 @@ open class BaseViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override open func viewDidLoad() {
+        super.viewDidLoad()
         self.presenter.viewIsReady()
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.presenter.viewIsGone()
+    }
+    
+    public func addSubview(with viewModel:BaseViewModel, on origin:CGPoint){
+        let view = viewModel.getView()
+        view.setupView()
+        view.frame.origin = origin
+        self.view.addSubview(view)
     }
 }
 
