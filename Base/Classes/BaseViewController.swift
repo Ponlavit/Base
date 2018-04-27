@@ -6,7 +6,7 @@ import Foundation
 open class BaseViewController: UIViewController {
     
     /*! @brief as output to acknowledge action to presenter */
-    public var presenter:BasePresenter!
+    public internal(set) var presenter:BasePresenter!
     
     public required override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -29,8 +29,13 @@ open class BaseViewController: UIViewController {
     public func addSubview(with viewModel:BaseViewModel, on origin:CGPoint){
         let view = viewModel.getView()
         view.setupView()
+        view.bind()
         view.frame.origin = origin
         self.view.addSubview(view)
+    }
+    
+    open func getPresenter() -> BasePresenter{
+        fatalError("must override to get concrete presenter")
     }
 }
 

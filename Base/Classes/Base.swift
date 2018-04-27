@@ -32,5 +32,10 @@ public class Base {
         
         return _viewController
     }
+    
+    public static func validate(value:String,withExpression regex:String)->Bool {
+        return NSPredicate(format:"SELF MATCHES %@", regex)
+            .evaluate(with: value)
+    }
 }
 

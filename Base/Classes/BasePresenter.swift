@@ -5,9 +5,9 @@ import Foundation
 open class BasePresenter {
     
     /*! @brief as view action to continue perform route action */
-    private let route:BaseRoute!
+    public let route:BaseRoute!
     /*! @brief update back to view if need (suggestion using Rx) */
-    weak var view:BaseViewController!
+    public private(set) weak var view:BaseViewController!
     
     public required init(route:BaseRoute, viewController: BaseViewController){
         self.route = route
@@ -19,12 +19,12 @@ open class BasePresenter {
         
     }
     
-    public func getRoute() -> BaseRoute {
-        return self.route
+    open func getRoute() -> BaseRoute {
+        fatalError("must override to get concrete route")
     }
     
-    public func getView() -> BaseViewController {
-        return self.view
+    open func getView() -> BaseViewController {
+        fatalError("must override to get concrete view controller")
     }
     
     /*! @brief do some release or remove data for view */

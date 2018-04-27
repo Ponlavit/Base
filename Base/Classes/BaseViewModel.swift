@@ -18,10 +18,10 @@ open class BaseViewModel : BaseModel {
     }
     
     public let name:String!
-    public var nibName:String?
-    
-    public init(withName name:String!){
-        self.name = name
-    }
+    public private(set) var nibName:String?
 
+    public init(withName name:String!, nibName:String!){
+        self.name = name
+        self.nibName = nibName
+    }
 }

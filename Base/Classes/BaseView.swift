@@ -9,10 +9,22 @@ import Foundation
 
 open class BaseView : UIView {
     public var viewModel:BaseViewModel!
+
+    open func setupView(){
+    }
     
-    open func setupView(){}
+    open func bind(){
+    }
     
-    open func getModel() -> BaseViewModel { return self.viewModel }
+    open func getModel() -> BaseViewModel {
+        fatalError("must override to get concrete view model")
+    }
+    
+    public func changeViewModel(withNewModel newViewModel:BaseViewModel){
+        self.viewModel = newViewModel
+        self.setupView()
+        self.bind()
+    }
     
     class func instanceFromNib(nibName name:String!) -> BaseView {
         return UINib(nibName: name, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
