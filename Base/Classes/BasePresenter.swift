@@ -13,16 +13,18 @@ open class BasePresenter {
         self.route = route
         self.view = viewController
     }
-    
+        
     /*! @brief do some initial for view */
     open func viewIsReady(){
         
     }
     
+    /*! @brief get the main route object */
     open func getRoute() -> BaseRoute {
         fatalError("must override to get concrete route")
     }
     
+    /*! @brief get corresponding view controller  */
     open func getView() -> BaseViewController {
         fatalError("must override to get concrete view controller")
     }
@@ -30,5 +32,48 @@ open class BasePresenter {
     /*! @brief do some release or remove data for view */
     open func viewIsGone() {
         
+    }
+    
+    /*! @brief get corresponding view controller main view width  */
+    public func getWidth() -> CGFloat{
+        return self.getView().view.frame.size.width
+    }
+    
+    /*! @brief get corresponding view controller main view width in percent width  */
+    public func getWidth(percent: CGFloat) -> CGFloat {
+        return self.getWidth() * percent / 100.0
+    }
+    
+    /*! @brief get corresponding view controller main view width in percent height  */
+    public func getHeight(percent: CGFloat) -> CGFloat {
+        return self.getWidth() * percent / 100.0
+    }
+    
+    public func positionUnder(_ view:BaseView?, withMargin margin:CGFloat) -> CGFloat{
+        guard let notNilView = view else {
+            return 0 + margin
+        }
+        let zeroMargin = notNilView.frame.origin.y + notNilView.frame.size.height
+        return zeroMargin + margin
+    }
+    
+    public func insertViewWithViewModel(_ viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat) {
+        
+        self.insert(intoView: self.getView().view, with: viewModel, under: topViewModel, withTopMargin: marginTop, andLeftMargin: marginLeft)
+    }
+    
+    public func insert(intoView:UIView, with viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat){
+        
+        var nextY = self.positionUnder(topViewModel?.view, withMargin: marginTop)
+        
+        if(topViewModel != nil){
+            if(topViewModel?.view?.isHidden)!{
+                nextY = self.positionUnder(nil, withMargin: marginTop)
+            }
+        }
+        
+        self.getView().addSubview(intoView: intoView, with: viewModel, on: CGPoint(
+            x:marginLeft,
+            y:nextY))
     }
 }

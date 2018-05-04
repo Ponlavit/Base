@@ -11,6 +11,12 @@ open class BaseView : UIView {
     public var viewModel:BaseViewModel!
 
     open func setupView(){
+        let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
+        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: self.frame.size.height))
+    }
+    
+    open func getPercentWidth() -> CGFloat {
+        return 100
     }
     
     open func bind(){
@@ -26,16 +32,10 @@ open class BaseView : UIView {
         self.bind()
     }
     
-    class func instanceFromNib(nibName name:String!) -> BaseView {
-        return UINib(nibName: name, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
-    }
-    
     public static func buildFromNib(withModel viewModel:BaseViewModel) -> BaseView {
-        guard let nibName = viewModel.getNibName() else {
-            fatalError("Cannot get nibName, need to override getNibName() or use func build(withModel:) instead ")
-        }
-        let view = BaseView.instanceFromNib(nibName:nibName)
+        let view = viewModel.getNib()
         view.viewModel = viewModel
+        viewModel.setView(view)
         return view;
     }
     
@@ -46,6 +46,7 @@ open class BaseView : UIView {
     public static func build(withModel viewModel:BaseViewModel, andFrame frame:CGRect) -> BaseView {
         let view = BaseView(frame: frame)
         view.viewModel = viewModel
+        viewModel.setView(view)
         return view
     }
     
