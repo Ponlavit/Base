@@ -63,6 +63,26 @@ open class BaseViewController: UIViewController {
         }
     }
     
+    
+    public func showAutoCloseOverlay(_ text:String, iconImage:UIImage, closeIn:TimeInterval, isBlock:Bool? = false){
+        
+        var overlayView : UIView?
+        
+        if(isBlock)! {
+            overlayView = SwiftOverlays.showBlockingImageAndTextOverlay(iconImage, text: text)
+        }
+        else {
+            overlayView = SwiftOverlays.showImageAndTextOverlay(self.view, image:iconImage, text: text)
+        }
+        
+        
+        Timer.scheduledTimer(timeInterval: closeIn, target: self, selector: #selector(hideAutoCloseOverlay(timer:)), userInfo: overlayView, repeats: false)
+    }
+    
+    @objc func hideAutoCloseOverlay(timer:Timer?){
+        (timer?.userInfo as! UIView).removeFromSuperview()
+    }
+    
     public func hideAllOverlay(){
         SwiftOverlays.removeAllBlockingOverlays()
         self.removeAllOverlays()
