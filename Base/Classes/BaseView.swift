@@ -12,11 +12,16 @@ open class BaseView : UIView {
 
     open func setupView(){
         let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
-        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: self.frame.size.height))
+        let height = self.getHeight()
+        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: height))
     }
     
     open func getPercentWidth() -> CGFloat {
         return 100
+    }
+    
+    open func getHeight() -> CGFloat {
+        return (self.viewModel.view?.frame.size.height)!
     }
     
     open func bind(){

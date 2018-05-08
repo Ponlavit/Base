@@ -57,6 +57,14 @@ open class BasePresenter {
         return zeroMargin + margin
     }
     
+    public func positionNextTo(_ view:BaseView?, withMargin margin:CGFloat) -> CGFloat{
+        guard let notNilView = view else {
+            return 0 + margin
+        }
+        let zeroMargin = notNilView.frame.origin.x + notNilView.frame.size.width
+        return zeroMargin + margin
+    }
+    
     public func insertViewWithViewModel(_ viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat) {
         
         self.insert(intoView: self.getView().view, with: viewModel, under: topViewModel, withTopMargin: marginTop, andLeftMargin: marginLeft)
@@ -75,5 +83,19 @@ open class BasePresenter {
         self.getView().addSubview(intoView: intoView, with: viewModel, on: CGPoint(
             x:marginLeft,
             y:nextY))
+    }
+    
+    
+    
+    public func insert(intoView:UIView,nextTo viewModel:BaseViewModel, with:BaseViewModel, withSpace margin:CGFloat){
+        var nextX = self.positionNextTo(viewModel.view, withMargin: margin)
+        
+        if(viewModel.view?.isHidden)!{
+            nextX = self.positionNextTo(nil, withMargin: margin)
+        }
+        
+        self.getView().addSubview(intoView: intoView, with: with, on: CGPoint(
+            x:nextX,
+            y:(viewModel.view?.frame.origin.y)!))
     }
 }

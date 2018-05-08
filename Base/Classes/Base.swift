@@ -17,6 +17,32 @@ public class Base {
         return _viewController
     }
     
+    public static func build(moduleName name:String) -> BaseViewController {
+
+        let _viewControllerT = Base.classFromString("\(name)ViewController") as! BaseViewController.Type
+        
+        let _viewController = _viewControllerT.init()
+        
+        let _routeT = Base.classFromString("\(name)Route") as! BaseRoute.Type
+
+        let _route = _routeT.init(viewController: _viewController)
+        
+        let _presenterT = Base.classFromString("\(name)Presenter") as! BasePresenter.Type
+        
+        let _presenter = _presenterT.init(route: _route, viewController: _viewController)
+        
+        _viewController.presenter = _presenter
+        
+        return _viewController
+    }
+    
+    @objc public static func classFromString(_ className:String) -> AnyClass {
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName")
+        let className = "\(appName!).\(className)"
+        return NSClassFromString(className)!
+    }
+    
+    
     public static func build(nibName:String?,
                              viewController:BaseViewController.Type,
                              presenter:BasePresenter.Type,
@@ -38,4 +64,3 @@ public class Base {
             .evaluate(with: value)
     }
 }
-
