@@ -29,7 +29,9 @@ open class BaseViewModel : BaseModel {
     }
     
     open func getNib() -> BaseView {
-        return UINib(nibName: self.nibName!, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
+        let view = UINib(nibName: self.nibName!, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
+        view.accessibilityIdentifier = self.name
+        return view
     }
     
     public init(withName name:String!, nibName:String!){

@@ -14,6 +14,11 @@ open class BaseView : UIView {
         let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
         let height = self.getHeight()
         self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: height))
+        self.setupAccessibilityId()
+    }
+    
+    open func setupAccessibilityId() {
+        self.accessibilityIdentifier = getModel().name
     }
     
     open func getPercentWidth() -> CGFloat {
