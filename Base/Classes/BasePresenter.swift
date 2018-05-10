@@ -65,12 +65,12 @@ open class BasePresenter {
         return zeroMargin + margin
     }
     
-    public func insertViewWithViewModel(_ viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat) {
+    public func addSubview(_ viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat) {
         
-        self.insert(intoView: self.getView().view, with: viewModel, under: topViewModel, withTopMargin: marginTop, andLeftMargin: marginLeft)
+        self.addSubView(intoView: self.getView().view, with: viewModel, under: topViewModel, withTopMargin: marginTop, andLeftMargin: marginLeft)
     }
     
-    public func insert(intoView:UIView, with viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat){
+    public func addSubView(intoView:UIView, with viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat){
         
         var nextY = self.positionUnder(topViewModel?.view, withMargin: marginTop)
         
@@ -85,9 +85,7 @@ open class BasePresenter {
             y:nextY))
     }
     
-    
-    
-    public func insert(intoView:UIView,nextTo viewModel:BaseViewModel, with:BaseViewModel, withSpace margin:CGFloat){
+    public func addSubview(intoView:UIView,nextTo viewModel:BaseViewModel, with:BaseViewModel, withSpace margin:CGFloat){
         var nextX = self.positionNextTo(viewModel.view, withMargin: margin)
         
         if(viewModel.view?.isHidden)!{

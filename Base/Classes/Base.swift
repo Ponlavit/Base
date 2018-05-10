@@ -64,3 +64,15 @@ public class Base {
             .evaluate(with: value)
     }
 }
+
+public func RunAfter(delayInSeconds: TimeInterval, qos: DispatchQoS, execute work: @escaping @convention(block) () -> Swift.Void) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds,
+                                  qos:qos,
+                                  execute: work)
+}
+
+
+public func runOnMain(_ callback: @escaping () -> Void) {
+    DispatchQueue.main.async(execute: callback)
+}
+
