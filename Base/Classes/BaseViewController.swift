@@ -58,7 +58,7 @@ open class BaseViewController: UIViewController {
         view.bind()
     }
     
-    public func showWaitOverlayWithText(_ text:String, isBlock: Bool){
+    open func showWaitOverlayWithText(_ text:String, isBlock: Bool){
         if(isBlock){
             SwiftOverlays.showBlockingWaitOverlayWithText(text)
         }
@@ -68,7 +68,7 @@ open class BaseViewController: UIViewController {
     }
     
     
-    public func showAutoCloseOverlay(_ text:String, iconImage:UIImage, closeIn:TimeInterval, isBlock:Bool? = false){
+    open func showAutoCloseOverlay(_ text:String, iconImage:UIImage, closeIn:TimeInterval, isBlock:Bool? = false){
         
         var overlayView : UIView?
         
@@ -87,7 +87,7 @@ open class BaseViewController: UIViewController {
         (timer?.userInfo as! UIView).removeFromSuperview()
     }
     
-    public func hideAllOverlay(){
+    open func hideAllOverlay(){
         SwiftOverlays.removeAllBlockingOverlays()
         self.removeAllOverlays()
     }
