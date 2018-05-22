@@ -7,13 +7,22 @@
 
 import Foundation
 
-open class BaseView : UIView {
-    public var viewModel:BaseViewModel!
+protocol BaseViewLC {
+    func setupView()
+    func bind()
+    func setupAccessibilityId()
+}
+
+open class BaseView : UIView, BaseViewLC {
+    public private(set) var viewModel:BaseViewModel!
 
     open func setupView(){
         let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
         let height = self.getHeight()
         self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: height))
+        if(self.getModel().onSetupView != nil) {
+            self.getModel().onSetupView!(self)
+        }
         self.setupAccessibilityId()
     }
     
@@ -42,8 +51,8 @@ open class BaseView : UIView {
         self.bind()
     }
     
-    public static func buildFromNib(withModel viewModel:BaseViewModel) -> BaseView {
-        let view = viewModel.getNib()
+    static func buildFromNib(withModel viewModel:BaseViewModel) -> BaseView {
+        let view = viewModel.getNibView()
         view.viewModel = viewModel
         viewModel.setView(view)
         return view;
@@ -66,5 +75,44 @@ open class BaseView : UIView {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+open class BaseTableViewCell : UITableViewCell, BaseViewLC {
+    public var viewModel:BaseViewModel!
+    
+    func setupView() {
+        
+    }
+    
+    func bind() {
+        
+    }
+    
+    func registerOn(table:UITableView){
+        guard let name = self.getModel().getNibName() else {
+            fatalError("Nibname should not be nil")
+        }
+        guard name == self.reuseIdentifier else {
+            fatalError("Nibname and reuse id should be the same")
+        }
+        print("Register Cell \(name)")
+        table.register(self.getModel().getNib(),
+                       forCellReuseIdentifier: name)
+    }
+    
+    open func getWHRatio() -> CGFloat {
+        return 1/1
+    }
+    
+    func getHeighByRatio() -> CGFloat {
+        return self.getWHRatio() * (self.window?.screen.bounds.width)!
+    }
+    
+    open func setupAccessibilityId() {
+        self.accessibilityIdentifier = getModel().name
+    }
+    open func getModel() -> BaseViewModel {
+        fatalError("must override to get concrete view model")
     }
 }

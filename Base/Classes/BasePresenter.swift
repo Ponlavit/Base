@@ -43,6 +43,10 @@ open class BasePresenter : NSObject {
         return self.getView().view.frame.size.width
     }
     
+    public func getHeight() -> CGFloat{
+        return self.getView().view.frame.size.height
+    }
+    
     /*! @brief get corresponding view controller main view width in percent width  */
     public func getWidth(percent: CGFloat) -> CGFloat {
         return self.getWidth() * percent / 100.0
@@ -50,7 +54,7 @@ open class BasePresenter : NSObject {
     
     /*! @brief get corresponding view controller main view width in percent height  */
     public func getHeight(percent: CGFloat) -> CGFloat {
-        return self.getWidth() * percent / 100.0
+        return self.getHeight() * percent / 100.0
     }
     
     public func positionUnder(_ view:BaseView?, withMargin margin:CGFloat) -> CGFloat{

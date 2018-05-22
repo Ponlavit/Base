@@ -1,6 +1,12 @@
 
 import Foundation
-import SwiftOverlays
+
+public protocol PopupManagementInterface {
+    static func showWaitOverlayWithText(_ text:String,subtitle:String?, isBlock: Bool)
+    static func showAutoCloseOverlay(_ text:String,subtitle:String, type:Int, closeIn:TimeInterval, isBlock:Bool?)
+    static func hideAutoCloseOverlay(timer:Timer?)
+    static func hideAllOverlay()
+}
 
 /// Contain view for one page screen, contain base functionality to render the subview
 open class BaseViewController: UIViewController {
@@ -25,6 +31,7 @@ open class BaseViewController: UIViewController {
     }
     
     override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.getPresenter().viewWillAppear()
     }
     
@@ -56,40 +63,6 @@ open class BaseViewController: UIViewController {
         targetView.addSubview(view)
         view.setupView()
         view.bind()
-    }
-    
-    open func showWaitOverlayWithText(_ text:String, isBlock: Bool){
-        if(isBlock){
-            SwiftOverlays.showBlockingWaitOverlayWithText(text)
-        }
-        else{
-            self.showWaitOverlayWithText(text)
-        }
-    }
-    
-    
-    open func showAutoCloseOverlay(_ text:String, iconImage:UIImage, closeIn:TimeInterval, isBlock:Bool? = false){
-        
-        var overlayView : UIView?
-        
-        if(isBlock)! {
-            overlayView = SwiftOverlays.showBlockingImageAndTextOverlay(iconImage, text: text)
-        }
-        else {
-            overlayView = SwiftOverlays.showImageAndTextOverlay(self.view, image:iconImage, text: text)
-        }
-        
-        
-        Timer.scheduledTimer(timeInterval: closeIn, target: self, selector: #selector(hideAutoCloseOverlay(timer:)), userInfo: overlayView, repeats: false)
-    }
-    
-    @objc func hideAutoCloseOverlay(timer:Timer?){
-        (timer?.userInfo as! UIView).removeFromSuperview()
-    }
-    
-    open func hideAllOverlay(){
-        SwiftOverlays.removeAllBlockingOverlays()
-        self.removeAllOverlays()
     }
     
     open func getPresenter() -> BasePresenter{

@@ -8,9 +8,10 @@ open class BaseViewModel : BaseModel {
 
     public let name:String!
     public private(set) var nibName:String?
-    public private(set) weak var view: BaseView?
+    weak var view: BaseView?
+    open var onSetupView : ((_ view:BaseView) -> Swift.Void)?
 
-    func getView() -> BaseView {
+    public func getView() -> BaseView {
         if(self.view != nil) {
             return self.view!
         }
@@ -28,10 +29,14 @@ open class BaseViewModel : BaseModel {
         return self.nibName
     }
     
-    open func getNib() -> BaseView {
-        let view = UINib(nibName: self.nibName!, bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! BaseView
+    public func getNibView() -> BaseView {
+        let view = self.getNib().instantiate(withOwner: nil, options: nil)[0] as! BaseView
         view.accessibilityIdentifier = self.name
         return view
+    }
+    
+    open func getNib() -> UINib {
+        return UINib(nibName: self.nibName!, bundle: nil)
     }
     
     public init(withName name:String!, nibName:String!){
