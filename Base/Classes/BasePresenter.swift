@@ -78,6 +78,10 @@ open class BasePresenter : NSObject {
         self.addSubView(intoView: self.getView().view, with: viewModel, under: topViewModel, withTopMargin: marginTop, andLeftMargin: marginLeft)
     }
     
+    public func getTopMargin() -> CGFloat{
+        return UIApplication.shared.statusBarFrame.height + ((self.getView().navigationController?.navigationBar.frame.size.height) ?? 0)
+    }
+    
     public func addSubView(intoView:UIView, with viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat){
         
         var nextY = self.positionUnder(topViewModel?.view, withMargin: marginTop)
