@@ -9,6 +9,8 @@ open class BasePresenter : NSObject {
     /*! @brief update back to view if need (suggestion using Rx) */
     public private(set) weak var view:BaseViewController!
     
+    public var presenterModel:Any?
+    
     public required init(route:BaseRoute, viewController: BaseViewController){
         self.route = route
         self.view = viewController

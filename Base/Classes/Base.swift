@@ -1,7 +1,22 @@
 
 
+public protocol BaseScreen {
+    var screenName: String {get}
+    var screenTitle: String {get}
+}
+
+public enum ScreenTransitionMethod {
+    case push
+    case replace
+    case pop
+    case popToRoot
+    case pushWith(Any)
+    case replaceWith(Any)
+}
+
 /// Contain base function to support architecture
 public class Base {
+    
     public static func build(viewController:BaseViewController.Type,
                             presenter:BasePresenter.Type,
                             route:BaseRoute.Type) -> BaseViewController{
@@ -11,6 +26,26 @@ public class Base {
         let _route = route.init(viewController: _viewController)
         
         let _presenter = presenter.init(route: _route, viewController: _viewController)
+        
+        _viewController.presenter = _presenter
+        
+        return _viewController
+    }
+    
+    public static func build(_ screen:BaseScreen) -> BaseViewController {
+        let _viewControllerT = Base.classFromString("\(screen.screenName)ViewController") as! BaseViewController.Type
+        
+        let _viewController = _viewControllerT.init()
+        
+        _viewController.title = screen.screenTitle
+        
+        let _routeT = Base.classFromString("\(screen.screenName)Route") as! BaseRoute.Type
+        
+        let _route = _routeT.init(viewController: _viewController)
+        
+        let _presenterT = Base.classFromString("\(screen.screenName)Presenter") as! BasePresenter.Type
+        
+        let _presenter = _presenterT.init(route: _route, viewController: _viewController)
         
         _viewController.presenter = _presenter
         
@@ -42,7 +77,6 @@ public class Base {
         return NSClassFromString(className)!
     }
     
-    
     public static func build(nibName:String?,
                              viewController:BaseViewController.Type,
                              presenter:BasePresenter.Type,
@@ -72,7 +106,7 @@ public func RunAfter(delayInSeconds: TimeInterval, qos: DispatchQoS, execute wor
 }
 
 
-public func runOnMain(_ callback: @escaping () -> Void) {
-    DispatchQueue.main.async(execute: callback)
+public func runOnMain(_ work: @escaping @convention(block) () -> Swift.Void) {
+    DispatchQueue.main.async(execute: work)
 }
 

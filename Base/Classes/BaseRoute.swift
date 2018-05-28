@@ -1,6 +1,8 @@
 
 import Foundation
 
+let YES : Bool = true
+let NO : Bool = false
 
 /// Contain the navigation option and action
 open class BaseRoute {
@@ -14,5 +16,39 @@ open class BaseRoute {
     
     open func getViewController() -> BaseViewController {
         fatalError("must override to get concrete view controller")
+    }
+}
+
+public class RouteManager {
+    public static var navigation : RouteManager!
+    private var rootNavigation : UINavigationController!
+    public static func setup(withRoot:UINavigationController) {
+        if(RouteManager.navigation == nil) {
+            RouteManager.navigation = RouteManager()
+            RouteManager.navigation.rootNavigation = withRoot
+        }
+    }
+    public func routeTo (_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
+        switch method {
+        case .pop:
+            self.rootNavigation.popViewController(animated: animated!)
+        case .push:
+            self.rootNavigation.pushViewController(Base.build(screen), animated: animated!)
+        case .replace:
+            let cv = Base.build(screen)
+            self.rootNavigation.viewControllers.insert(cv, at: 0)
+            self.rootNavigation.popViewController(animated: animated!)
+        case .popToRoot:
+            self.rootNavigation.popViewController(animated: animated!)
+        case .pushWith(let obj):
+            let cv = Base.build(screen)
+            cv.presenter.presenterModel = obj
+            self.rootNavigation.pushViewController(cv, animated: animated!)
+        case .replaceWith(let obj):
+            let cv = Base.build(screen)
+            cv.presenter.presenterModel = obj
+            self.rootNavigation.viewControllers.insert(cv, at: 0)
+            self.rootNavigation.popViewController(animated: animated!)
+        }
     }
 }
