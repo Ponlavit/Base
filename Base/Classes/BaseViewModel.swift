@@ -8,17 +8,19 @@ open class BaseViewModel : BaseModel {
 
     public let name:String!
     public private(set) var nibName:String?
-    weak var view: BaseView?
-    open var onSetupView : ((_ view:BaseView) -> Swift.Void)?
+    open weak var view: BaseView?
+    open var onSetupView : ((_ view:BaseViewLC) -> Swift.Void)?
 
-    public func getView() -> BaseView {
+    open func getView<T:BaseView>() -> T {
         if(self.view != nil) {
-            return self.view!
+            return self.view! as! T
         }
         if(self.getNibName() != nil && self.getNibName() != "") {
-            return BaseView.buildFromNib(withModel: self)
+            let ret : T = T.buildFromNib(withModel: self) as! T
+            return ret
         }
-        return BaseView.build(withModel: self)
+        let ret : T = T.build(withModel: self)
+        return ret
     }
     
     func setView(_ view:BaseView){
@@ -29,8 +31,8 @@ open class BaseViewModel : BaseModel {
         return self.nibName
     }
     
-    public func getNibView() -> BaseView {
-        let view = self.getNib().instantiate(withOwner: nil, options: nil)[0] as! BaseView
+    public func getNibView() -> UIView {
+        let view = self.getNib().instantiate(withOwner: nil, options: nil)[0] as! UIView
         view.accessibilityIdentifier = self.name
         return view
     }

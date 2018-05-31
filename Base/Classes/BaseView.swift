@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol BaseViewLC {
+public protocol BaseViewLC {
     func setupView()
     func bind()
     func setupAccessibilityId()
@@ -51,25 +51,27 @@ open class BaseView : UIView, BaseViewLC {
         self.bind()
     }
     
-    static func buildFromNib(withModel viewModel:BaseViewModel) -> BaseView {
-        let view = viewModel.getNibView()
+    static func buildFromNib<T:BaseView>(withModel viewModel:BaseViewModel) -> T {
+        let view : T = viewModel.getNibView() as! T
         view.viewModel = viewModel
         viewModel.setView(view)
         return view;
     }
     
-    public static func build(withModel viewModel:BaseViewModel) -> BaseView {
-        return BaseView.build(withModel: viewModel, andFrame: CGRect.zero)
+    public static func build<T:BaseView>(withModel viewModel:BaseViewModel) -> T {
+        let ret : T = T.build(withModel: viewModel, andFrame: CGRect.zero)
+        return ret
     }
     
-    public static func build(withModel viewModel:BaseViewModel, andFrame frame:CGRect) -> BaseView {
-        let view = BaseView(frame: frame)
+    public static func build<T:BaseView>(withModel viewModel:BaseViewModel, andFrame frame:CGRect) -> T {
+        let aClass  = T.self
+        let view = aClass.init(frame: CGRect.zero)
         view.viewModel = viewModel
         viewModel.setView(view)
         return view
     }
     
-    override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -80,16 +82,17 @@ open class BaseView : UIView, BaseViewLC {
 
 open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     public var viewModel:BaseViewModel!
+    open func setupView() {
+        if(self.getModel().onSetupView != nil) {
+            self.getModel().onSetupView!(self)
+        }
+    }
     
-    func setupView() {
+    open func bind() {
         
     }
     
-    func bind() {
-        
-    }
-    
-    func registerOn(table:UITableView){
+    public func registerOn(table:UITableView){
         guard let name = self.getModel().getNibName() else {
             fatalError("Nibname should not be nil")
         }
@@ -102,11 +105,11 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
     }
     
     open func getWHRatio() -> CGFloat {
-        return 1/1
+        return 1
     }
     
-    func getHeighByRatio() -> CGFloat {
-        return self.getWHRatio() * (self.window?.screen.bounds.width)!
+    public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
+        return self.getWHRatio() * width
     }
     
     open func setupAccessibilityId() {
@@ -116,3 +119,6 @@ open class BaseTableViewCell : UITableViewCell, BaseViewLC {
         fatalError("must override to get concrete view model")
     }
 }
+
+
+
