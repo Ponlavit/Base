@@ -80,45 +80,6 @@ open class BaseView : UIView, BaseViewLC {
     }
 }
 
-open class BaseTableViewCell : UITableViewCell, BaseViewLC {
-    public var viewModel:BaseViewModel!
-    open func setupView() {
-        if(self.getModel().onSetupView != nil) {
-            self.getModel().onSetupView!(self)
-        }
-    }
-    
-    open func bind() {
-        
-    }
-    
-    public func registerOn(table:UITableView){
-        guard let name = self.getModel().getNibName() else {
-            fatalError("Nibname should not be nil")
-        }
-        guard name == self.reuseIdentifier else {
-            fatalError("Nibname and reuse id should be the same")
-        }
-        print("Register Cell \(name)")
-        table.register(self.getModel().getNib(),
-                       forCellReuseIdentifier: name)
-    }
-    
-    open func getWHRatio() -> CGFloat {
-        return 1
-    }
-    
-    public func getHeighByRatio(_ width:CGFloat) -> CGFloat {
-        return self.getWHRatio() * width
-    }
-    
-    open func setupAccessibilityId() {
-        self.accessibilityIdentifier = getModel().name
-    }
-    open func getModel() -> BaseViewModel {
-        fatalError("must override to get concrete view model")
-    }
-}
 
 
 
