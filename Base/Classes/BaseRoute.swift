@@ -28,27 +28,50 @@ public class RouteManager {
             RouteManager.navigation.rootNavigation = withRoot
         }
     }
-    public func routeTo (_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
+    
+    public func to(_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
+        self.routeTo(screen,method:method,animated:animated)
+    }
+    
+    public func to(_ viewContrller:BaseViewController,method:ScreenTransitionMethod, animated:Bool?){
         switch method {
         case .pop:
             self.rootNavigation.popViewController(animated: animated!)
         case .push:
-            self.rootNavigation.pushViewController(Base.build(screen), animated: animated!)
+            self.rootNavigation.pushViewController(viewContrller, animated: animated!)
         case .replace:
-            let cv = Base.build(screen)
+            let cv = viewContrller
             self.rootNavigation.viewControllers.insert(cv, at: 0)
             self.rootNavigation.popViewController(animated: animated!)
         case .popToRoot:
             self.rootNavigation.popViewController(animated: animated!)
         case .pushWith(let obj):
-            let cv = Base.build(screen)
+            let cv = viewContrller
             cv.presenter.presenterModel = obj
             self.rootNavigation.pushViewController(cv, animated: animated!)
         case .replaceWith(let obj):
-            let cv = Base.build(screen)
+            let cv = viewContrller
             cv.presenter.presenterModel = obj
             self.rootNavigation.viewControllers.insert(cv, at: 0)
             self.rootNavigation.popViewController(animated: animated!)
         }
     }
+    
+    public func routeTo(_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
+        self.to(Base.build(screen), method: method, animated: animated)
+    }
+}
+
+public protocol BaseScreen {
+    var screenName: String {get}
+    var screenTitle: String {get}
+}
+
+public enum ScreenTransitionMethod {
+    case push
+    case replace
+    case pop
+    case popToRoot
+    case pushWith(Any)
+    case replaceWith(Any)
 }

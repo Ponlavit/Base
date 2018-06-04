@@ -25,6 +25,10 @@ open class BasePresenter : NSObject {
         
     }
     
+    open func viewWillDisappear(){
+        
+    }
+    
     /*! @brief get the main route object */
     open func getRoute() -> BaseRoute {
         fatalError("must override to get concrete route")

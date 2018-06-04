@@ -35,6 +35,11 @@ open class BaseViewController: UIViewController {
         self.getPresenter().viewWillAppear()
     }
     
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.getPresenter().viewWillDisappear()
+    }
+    
     private func setHideKeyboard(){
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,

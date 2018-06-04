@@ -1,19 +1,4 @@
 
-
-public protocol BaseScreen {
-    var screenName: String {get}
-    var screenTitle: String {get}
-}
-
-public enum ScreenTransitionMethod {
-    case push
-    case replace
-    case pop
-    case popToRoot
-    case pushWith(Any)
-    case replaceWith(Any)
-}
-
 /// Contain base function to support architecture
 public class Base {
     
