@@ -86,7 +86,7 @@ open class BasePresenter : NSObject {
     
     public func getTopMargin() -> CGFloat{
         var height = UIApplication.shared.statusBarFrame.height
-        if(self.getView().navigationController?.isNavigationBarHidden ?? false) {
+        if(!(self.getView().navigationController?.isNavigationBarHidden ?? true)) {
             height += ((self.getView().navigationController?.navigationBar.frame.size.height) ?? 0)
         }
         return height
