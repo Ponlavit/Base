@@ -85,7 +85,11 @@ open class BasePresenter : NSObject {
     }
     
     public func getTopMargin() -> CGFloat{
-        return UIApplication.shared.statusBarFrame.height + ((self.getView().navigationController?.navigationBar.frame.size.height) ?? 0)
+        var height = UIApplication.shared.statusBarFrame.height
+        if(self.getView().navigationController?.isNavigationBarHidden ?? false) {
+            height += ((self.getView().navigationController?.navigationBar.frame.size.height) ?? 0)
+        }
+        return height
     }
     
     public func addSubView(intoView:UIView, with viewModel:BaseViewModel,under topViewModel:BaseViewModel?, withTopMargin marginTop:CGFloat, andLeftMargin marginLeft:CGFloat){
