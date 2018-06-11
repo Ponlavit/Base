@@ -95,15 +95,33 @@ public func runOnMain(_ work: @escaping @convention(block) () -> Swift.Void) {
     DispatchQueue.main.async(execute: work)
 }
 
-extension Encodable {
+
+public extension Encodable {
     func encoded() throws -> Data {
         return try JSONEncoder().encode(self)
     }
 }
 
-extension Data {
+public extension Data {
     func decoded<T:Decodable>() throws -> T {
         return try JSONDecoder().decode(T.self, from: self)
+    }
+}
+
+public extension String {
+    
+    static func random(length: UInt? = 20) -> String {
+        guard let len = length else {
+            return ""
+        }
+        let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var randomString: String = ""
+        
+        for _ in 0..<len {
+            let randomValue = arc4random_uniform(UInt32(base.count))
+            randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+        }
+        return randomString
     }
 }
 
