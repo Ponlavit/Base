@@ -37,6 +37,11 @@ public class RouteManager {
         self.rootNavigation.popViewController(animated: animated)
     }
     
+    public func popToRoot(animated: Bool){
+        self.rootNavigation.popToRootViewController(animated: animated)
+    }
+    
+    
     public func to(_ viewContrller:BaseViewController,method:ScreenTransitionMethod, animated:Bool?){
         switch method {
         case .push:
@@ -72,7 +77,6 @@ public protocol BaseScreen {
 public enum ScreenTransitionMethod {
     case push
     case replace
-    case popToRoot
     case pushWith(Any)
     case replaceWith(Any)
 }
