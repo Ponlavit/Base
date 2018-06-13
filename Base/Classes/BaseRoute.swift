@@ -50,8 +50,6 @@ public class RouteManager {
             let cv = viewContrller
             self.rootNavigation.viewControllers.insert(cv, at: 0)
             self.rootNavigation.popViewController(animated: animated!)
-        case .popToRoot:
-            self.rootNavigation.popViewController(animated: animated!)
         case .pushWith(let obj):
             let cv = viewContrller
             cv.presenter.presenterModel = obj
