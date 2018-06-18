@@ -1,5 +1,7 @@
 
 /// Contain base function to support architecture
+
+
 public class Base {
     
     public static func build(viewController:BaseViewController.Type,
@@ -57,9 +59,7 @@ public class Base {
     }
     
     @objc public static func classFromString(_ className:String) -> AnyClass {
-        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName")
-        let className = "\(appName!).\(className)"
-        return NSClassFromString(className)!
+        return ClassSupport.swiftClass(from: className)
     }
     
     public static func build(nibName:String?,
