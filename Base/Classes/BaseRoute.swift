@@ -29,6 +29,13 @@ public class RouteManager {
         }
     }
     
+    public func isShowingScreen(_ screen:BaseScreen) -> Bool{
+        let currentScreen =
+            NSStringFromClass((rootNavigation.visibleViewController?.classForCoder)!).components(separatedBy: ".").last!
+        let screenToCheck = "\(screen.screenName)ViewController"
+        return currentScreen.elementsEqual(screenToCheck)
+    }
+    
     public func to(_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
         self.routeTo(screen,method:method,animated:animated)
     }
@@ -49,7 +56,7 @@ public class RouteManager {
         case .replace:
             let cv = viewContrller
             self.rootNavigation.viewControllers.insert(cv, at: 0)
-            self.rootNavigation.popViewController(animated: animated!)
+            self.rootNavigation.popToRootViewController(animated: animated!)
         case .pushWith(let obj):
             let cv = viewContrller
             cv.presenter.presenterModel = obj
@@ -58,7 +65,7 @@ public class RouteManager {
             let cv = viewContrller
             cv.presenter.presenterModel = obj
             self.rootNavigation.viewControllers.insert(cv, at: 0)
-            self.rootNavigation.popViewController(animated: animated!)
+            self.rootNavigation.popToRootViewController(animated: animated!)
         }
     }
     
