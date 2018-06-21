@@ -27,7 +27,7 @@ open class BaseView : UIView, BaseViewLC {
     }
     
     open func setupAccessibilityId() {
-        self.accessibilityIdentifier = getModel().name
+        self.accessibilityIdentifier = getModel().name ?? NSStringFromClass(self.classForCoder)
     }
     
     open func getPercentWidth() -> CGFloat {
