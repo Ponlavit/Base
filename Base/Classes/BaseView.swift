@@ -14,7 +14,7 @@ public protocol BaseViewLC {
 }
 
 open class BaseView : UIView, BaseViewLC {
-    public weak private(set) var viewModel:BaseViewModel!
+    public private(set) var viewModel:BaseViewModel!
 
     open func setupView(){
         let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
