@@ -17,7 +17,10 @@ open class BaseView : UIView, BaseViewLC {
     public private(set) var viewModel:BaseViewModel!
 
     open func setupView(){
-        let adjustWidth = (self.superview?.frame.size.width)! * self.getPercentWidth() / 100
+        guard let spView = self.superview else {
+            return
+        }
+        let adjustWidth = (spView.frame.size.width) * self.getPercentWidth() / 100
         let height = self.getHeight()
         self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: adjustWidth, height: height))
         if(self.getModel().onSetupView != nil) {
