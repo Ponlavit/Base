@@ -90,6 +90,10 @@ public func RunAfter(delayInSeconds: TimeInterval, qos: DispatchQoS, execute wor
                                   execute: work)
 }
 
+public func RunAfter(delayInSeconds: TimeInterval, qos: DispatchQoS, execute work: DispatchWorkItem) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds,
+                                  execute: work)
+}
 
 public func runOnMain(_ work: @escaping @convention(block) () -> Swift.Void) {
     DispatchQueue.main.async(execute: work)
