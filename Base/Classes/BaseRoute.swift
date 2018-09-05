@@ -69,6 +69,20 @@ public class RouteManager {
         }
     }
     
+    public func to(_ viewContrller:UIViewController,method:ScreenTransitionMethod, animated:Bool?){
+        switch method {
+        case .push:
+            self.rootNavigation.pushViewController(viewContrller, animated: animated!)
+        case .replace:
+            let cv = viewContrller
+            self.rootNavigation.viewControllers.insert(cv, at: 0)
+            self.rootNavigation.popToRootViewController(animated: animated!)
+        default:
+            self.rootNavigation.pushViewController(viewContrller, animated: animated!)
+        }
+        
+    }
+    
     public func routeTo(_ screen:BaseScreen!,method:ScreenTransitionMethod, animated:Bool?) {
         self.to(Base.build(screen), method: method, animated: animated)
     }
