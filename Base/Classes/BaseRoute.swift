@@ -69,7 +69,7 @@ public class RouteManager {
         }
     }
     
-    public func to(_ viewContrller:UIViewController,method:ScreenTransitionMethod, animated:Bool?){
+    public func to(viewContrller:UIViewController,method:ScreenTransitionMethod, animated:Bool?){
         switch method {
         case .push:
             self.rootNavigation.pushViewController(viewContrller, animated: animated!)
